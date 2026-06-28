@@ -1,0 +1,315 @@
+.data-grid .t-table__cell--sortable .t-icon-sort--default {
+  display: none;
+}
+
+.data-grid .t-table__cell--sortable .t-table__cell--sort-trigger {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  margin-left: 2px;
+  min-width: 0;
+}
+
+.data-grid .t-table__sort-icon--active {
+  color: var(--bui-primary-color, #1d4ed8);
+}
+
+.data-grid .sortable-header {
+  cursor: pointer;
+}
+
+.data-grid .sortable-header:hover {
+  color: var(--bui-primary-color, #1d4ed8);
+  background: var(--bui-grid-header-hover-bg, #e8f1ff);
+}
+
+.data-grid .sortable-header:hover .t-table__th-cell-inner {
+  color: var(--bui-primary-color, #1d4ed8);
+}
+
+.data-grid .t-table--bordered .t-table__cell--sortable .t-table__cell--title {
+  display: inline-flex;
+  justify-content: flex-start;
+  gap: 2px;
+  max-width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+  width: auto;
+}
+
+.data-grid th .t-table__cell--sortable .t-table__cell--title > :first-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-grid .data-grid-sort-title-text {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-grid th .t-table__cell--sortable .t-table__cell--title > .t-table__ellipsis {
+  flex: 0 1 auto;
+  width: auto;
+}
+
+.data-grid .t-table--bordered th.t-align-center .t-table__cell--sortable .t-table__cell--title {
+  justify-content: flex-start;
+}
+
+.data-grid .t-table--bordered th.t-align-right .t-table__cell--sortable .t-table__cell--title {
+  justify-content: flex-start;
+}
+
+.data-grid .t-table__filter-icon-wrap {
+  flex: none;
+  width: auto;
+  height: auto;
+  margin-left: 2px;
+}
+
+.data-grid {
+  min-width: 0;
+}
+
+.data-gridbar {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 10px;
+  background: var(--bui-gridbar-bg, var(--ems-grid-gridbar-bg, #f6f8fa));
+  border-bottom: 1px solid #d0d7de;
+  box-sizing: border-box;
+}
+
+.data-gridbar-bottom {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  border-top: 1px solid #d0d7de;
+  border-bottom: 0;
+}
+
+.data-gridbar-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  min-width: 0;
+}
+
+.data-gridbar-action {
+  height: 26px;
+  padding-right: 7px;
+  padding-left: 7px;
+  border-radius: 4px;
+  color: #24292f;
+  font: inherit;
+  overflow: visible;
+}
+
+.data-gridbar-action:hover {
+  background: transparent;
+  box-shadow: none;
+}
+
+.data-gridbar-action::before {
+  position: absolute;
+  inset: -3px -5px;
+  z-index: -1;
+  border-radius: 5px;
+  content: "";
+}
+
+.data-gridbar-action:hover::before {
+  background: var(--bui-command-hover-bg, #dbeafe);
+  box-shadow: inset 0 0 0 1px var(--bui-command-hover-border, #93c5fd);
+}
+
+.data-gridbar-action .t-icon {
+  margin-right: 0;
+  font-size: 14px;
+}
+
+.data-gridbar-action-primary .t-icon {
+  color: var(--bui-primary-link-color, #0969da);
+}
+
+.data-gridbar-action-danger .t-icon {
+  color: var(--bui-danger-color, #cf222e);
+}
+
+.data-gridbar-action-warning .t-icon {
+  color: var(--bui-warning-color, #9a6700);
+}
+
+.data-gridbar-action-success .t-icon {
+  color: var(--bui-success-color, #1a7f37);
+}
+
+.data-gridbar-action .t-icon + .t-button__text:not(:empty) {
+  margin-left: 3px;
+}
+
+.data-gridbar-view {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.data-grid-selection {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  color: var(--bui-primary-link-color, #0969da);
+  background: var(--bui-grid-selection-bg, var(--ems-grid-selection-bg, #ddf4ff));
+  font-size: 13px;
+}
+
+.data-grid-selection strong {
+  margin: 0 3px;
+}
+
+.data-grid-pager {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  margin-left: auto;
+  color: #57606a;
+  font-size: 13px;
+}
+
+.data-grid-pager .t-button {
+  min-width: 24px;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.data-grid-pager-summary {
+  min-width: 104px;
+  height: 24px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 4px;
+  color: #24292f;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.data-grid-pager-summary:hover {
+  background: #eaeef2;
+}
+
+.data-grid-pager-summary-static {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.data-grid-pager-summary-static:hover {
+  background: transparent;
+}
+
+.data-grid-pager-editor {
+  width: 188px;
+  display: grid;
+  gap: 8px;
+  padding: 4px;
+}
+
+.data-grid-pager-field {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  color: #57606a;
+  font-size: 13px;
+}
+
+.data-grid-page-input {
+  display: grid;
+  grid-template-columns: 72px auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: #57606a;
+}
+
+.data-grid-page-input .t-input-number {
+  width: 72px;
+  min-width: 72px;
+}
+
+.data-grid-page-total {
+  white-space: nowrap;
+}
+
+.data-grid-column-panel {
+  width: 168px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.data-grid-column-panel-title {
+  margin-bottom: 6px;
+  color: #24292f;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.data-grid-column-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.data-grid-column-actions button {
+  padding: 0;
+  border: 0;
+  color: var(--bui-primary-link-color, #0969da);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+
+.data-grid-column-list {
+  display: grid;
+  gap: 4px;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.data-grid .t-table th {
+  padding: 0.3rem;
+}
+
+.data-grid .t-table td {
+  padding: 0.2rem;
+}
+
+.data-grid .t-table th {
+  color: #57606a;
+  background: var(--bui-grid-header-bg, var(--ems-grid-subtle-bg, #f6f8fa));
+  font-weight: 600;
+}
+
+.data-grid .t-table__body tr:hover td {
+  background: var(--bui-grid-row-hover-bg, var(--ems-grid-table-hover-bg, #f6f8fa));
+}
+
+.data-grid .t-table__body tr.data-grid-row-selected td,
+.data-grid .t-table__body tr.data-grid-row-selected:hover td {
+  background: var(--bui-grid-row-selected-bg, var(--ems-grid-table-selected-bg, #ddf4ff));
+}

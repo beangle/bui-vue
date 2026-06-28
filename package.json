@@ -1,0 +1,28 @@
+{
+  "name": "@beangle/bui-vue",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles/data-grid.css": "./src/styles/data-grid.css"
+  },
+  "scripts": {
+    "build": "vue-tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "peerDependencies": {
+    "tdesign-icons-vue-next": "^0.4.4",
+    "tdesign-vue-next": "^1.20.1",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
+    "tdesign-icons-vue-next": "^0.4.4",
+    "tdesign-vue-next": "^1.20.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12",
+    "vue-tsc": "^3.1.1",
+    "vue": "^3.5.22"
+  }
+}
