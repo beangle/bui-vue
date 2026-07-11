@@ -66,7 +66,6 @@ function selectTab(tab: UnderlineTabItem) {
 
 .underline-tabs-tab.active {
   color: var(--bui-primary-link-color, #0969da);
-  font-weight: 600;
 }
 
 .underline-tabs-tab.active::after {

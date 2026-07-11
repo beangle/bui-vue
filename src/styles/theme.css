@@ -1,0 +1,9 @@
+:root {
+  --bui-overlay-mask: rgba(31, 35, 40, 0.18);
+}
+
+.t-dialog__ctx .t-dialog__mask,
+.t-drawer__mask {
+  background: var(--bui-overlay-mask);
+  background-color: var(--bui-overlay-mask);
+}

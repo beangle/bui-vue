@@ -1,5 +1,9 @@
 <template>
   <div class="data-grid">
+    <div v-if="showLoadingIndicator" class="data-grid-loading-indicator">
+      <t-loading size="small" />
+      <span>{{ loadingText }}</span>
+    </div>
     <div v-if="showTopToolbar" class="data-gridbar data-gridbar-top">
       <div class="data-gridbar-actions">
         <t-button
@@ -108,8 +112,7 @@
       size="small"
       :data="data"
       :columns="computedColumns"
-      :loading="loading"
-      :row-selection-type="selectable ? 'multiple' : undefined"
+      :loading="tableLoading"
       :selected-row-keys="selectedRowKeys"
       :sort="tableSort"
       :row-class-name="rowClassName"
@@ -228,7 +231,7 @@
 import { computed, h, ref, watch } from 'vue'
 import type { PageInfo, PrimaryTableCol, TableSort } from 'tdesign-vue-next'
 import { ChevronLeftIcon, ChevronRightIcon, PageFirstIcon, PageLastIcon, ViewColumnIcon } from 'tdesign-icons-vue-next'
-import type { DataGridAction, DataGridColumn, DataGridToolbarPlacement } from './data-grid'
+import type { DataGridAction, DataGridColumn, DataGridLoadingMode, DataGridToolbarPlacement } from './data-grid'
 
 interface DataGridPagination {
   current?: number
@@ -241,6 +244,8 @@ const props = withDefaults(defineProps<{
   data: T[]
   columns: DataGridColumn[]
   loading?: boolean
+  loadingMode?: DataGridLoadingMode
+  loadingText?: string
   pagination?: DataGridPagination
   selectable?: boolean
   actions?: DataGridAction[]
@@ -251,6 +256,8 @@ const props = withDefaults(defineProps<{
   sort?: string
 }>(), {
   loading: false,
+  loadingMode: 'mask',
+  loadingText: '加载中',
   pagination: undefined,
   selectable: false,
   actions: () => [],
@@ -276,13 +283,27 @@ const bottomColumnPopupVisible = ref(false)
 const pageDraft = ref(1)
 const pageSizeDraft = ref(20)
 const visibleColumnKeys = ref<string[]>([])
+const tableLoading = computed(() => props.loading && props.loadingMode === 'mask')
+const showLoadingIndicator = computed(() => props.loading && props.loadingMode === 'indicator')
+const selectionColumnWidth = 40
 
 const computedColumns = computed<PrimaryTableCol<T>[]>(() => {
-  const visibleColumns = props.columns.filter((col) => shouldShowColumn(col)).map(withSort) as unknown as PrimaryTableCol<T>[]
+  const visibleColumns = normalizeSelectableColumnWidths(
+    props.columns.filter((col) => shouldShowColumn(col)).map(withSort),
+  ) as unknown as PrimaryTableCol<T>[]
   if (!props.selectable) return visibleColumns
   if (visibleColumns.some((col) => col.type === 'multiple' || col.type === 'single')) return visibleColumns
   return [
-    { colKey: '__select__', type: 'multiple', width: 48, align: 'center', fixed: 'left' },
+    {
+      colKey: 'row-select',
+      type: 'multiple',
+      width: selectionColumnWidth,
+      minWidth: selectionColumnWidth,
+      align: 'center',
+      fixed: 'left',
+      className: 'data-grid-selection-column',
+      thClassName: 'data-grid-selection-column',
+    },
     ...visibleColumns,
   ]
 })
@@ -394,6 +415,30 @@ function withSort(column: DataGridColumn): DataGridColumn {
     sorter: true,
     sortType: 'all',
   }
+}
+
+function normalizeSelectableColumnWidths(columns: DataGridColumn[]): DataGridColumn[] {
+  if (!props.selectable) return columns
+  if (columns.some((col) => col.type === 'multiple' || col.type === 'single')) return columns
+  const percentColumns = columns
+    .map((column) => ({ column, percent: percentWidthValue(column.width) }))
+    .filter((item): item is { column: DataGridColumn; percent: number } => item.percent !== undefined)
+  const percentTotal = percentColumns.reduce((total, item) => total + item.percent, 0)
+  if (percentTotal <= 0) return columns
+  return columns.map((column) => {
+    const percent = percentWidthValue(column.width)
+    if (percent === undefined) return column
+    return {
+      ...column,
+      width: `calc((100% - ${selectionColumnWidth}px) * ${percent} / ${percentTotal})`,
+    }
+  })
+}
+
+function percentWidthValue(width: DataGridColumn['width']) {
+  if (typeof width !== 'string') return undefined
+  const match = width.trim().match(/^(\d+(?:\.\d+)?)%$/)
+  return match ? Number(match[1]) : undefined
 }
 
 function tableSortKeyOf(sortKey: string) {
