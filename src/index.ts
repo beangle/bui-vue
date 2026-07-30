@@ -8,3 +8,12 @@ export type {
   DataGridToolbarPlacement,
 } from './components/data-grid'
 export type { UnderlineTabItem } from './components/underline-tabs'
+export {
+  LOCALE_STORAGE_KEY,
+  getStoredLocale,
+  normalizeLocale,
+  onLocaleChange,
+  setStoredLocale,
+  setStoredLocaleAndNotify,
+} from './locale'
+export type { LocaleChangeListener, UiLocale } from './locale'
