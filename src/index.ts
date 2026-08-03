@@ -17,3 +17,13 @@ export {
   setStoredLocaleAndNotify,
 } from './locale'
 export type { LocaleChangeListener, UiLocale } from './locale'
+export {
+  THEME_STORAGE_KEY,
+  applyDocumentTheme,
+  getStoredTheme,
+  normalizeTheme,
+  onThemeChange,
+  setStoredTheme,
+  setStoredThemeAndNotify,
+} from './theme'
+export type { ThemeChangeListener, UiTheme } from './theme'

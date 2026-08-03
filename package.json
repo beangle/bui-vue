@@ -6,7 +6,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./styles/theme.css": "./src/styles/theme.css",
-    "./styles/data-grid.css": "./src/styles/data-grid.css"
+    "./styles/data-grid.css": "./src/styles/data-grid.css",
+    "./styles/table.css": "./src/styles/table.css"
   },
   "scripts": {
     "build": "vue-tsc --noEmit",

@@ -1,4 +1,4 @@
-/** localStorage key shared with portal / micro-apps (mirrors beangle.ui.theme). */
+/** localStorage key shared with portal / micro-apps (mirrors beangle.ui.theme-mode). */
 export const LOCALE_STORAGE_KEY = 'beangle.ui.locale'
 
 export type UiLocale = 'zh-CN' | 'en-US'
@@ -34,6 +34,8 @@ export function setStoredLocale(locale: UiLocale | string): UiLocale | null {
   try {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(LOCALE_STORAGE_KEY, normalized)
+      // request_locale is a backend query param only — never persist locally.
+      localStorage.removeItem('request_locale')
     }
   } catch {
     // ignore quota / private mode
