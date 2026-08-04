@@ -342,9 +342,9 @@
 }
 
 .data-grid .t-table th {
-  color: #57606a;
   background: var(--bui-grid-header-bg, var(--ems-grid-subtle-bg, #f6f8fa));
   font-weight: 600;
+  color: var(--td-text-color-primary);
 }
 
 .data-grid .t-table__body tr:hover td {

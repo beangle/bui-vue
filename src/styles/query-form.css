@@ -1,0 +1,114 @@
+/* === Query Panel Layout ===
+ * Two-column grid: labels on the left, controls on the right.
+ * Compact inline form for data-grid filter panels.
+ */
+.query-panel {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--bui-border-color, #cfd6de);
+  border-radius: 7px;
+  background: var(--bui-panel-subtle-bg, #f8fafc);
+  box-sizing: border-box;
+}
+
+.query-title {
+  display: flex;
+  height: 24px;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.query-title::before {
+  width: 3px;
+  height: 12px;
+  margin-right: 6px;
+  border-radius: 999px;
+  background: var(--bui-brand-color, #0969da);
+  content: "";
+}
+
+.query-fields {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.query-fields > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.query-field {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr);
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.query-field-label {
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.query-field-wide {
+  grid-template-columns: 1fr;
+}
+
+.query-field-wide .query-field-label {
+  text-align: left;
+}
+
+.query-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.query-panel .t-button {
+  height: 26px;
+  min-width: 58px;
+  padding-right: 8px;
+  padding-left: 8px;
+  font-weight: 500;
+}
+
+.query-panel .t-input,
+.query-panel .t-select-input {
+  min-height: 28px;
+}
+
+.query-panel .t-input {
+  height: 28px;
+}
+
+@media (max-width: 900px) {
+  .query-panel {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0;
+    min-height: 0;
+    padding: 8px 10px;
+    border-right: 0;
+    border-bottom: 1px solid var(--bui-border-color, #cfd6de);
+  }
+
+  .query-fields {
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    align-items: end;
+    gap: 8px;
+  }
+
+  .query-actions {
+    justify-content: flex-start;
+  }
+}
