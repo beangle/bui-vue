@@ -18,6 +18,14 @@ export {
 } from './locale'
 export type { LocaleChangeListener, UiLocale } from './locale'
 export {
+  PALETTE_STORAGE_KEY,
+  applyPaletteVars,
+  applyStoredPaletteIfPresent,
+  getStoredPalette,
+  normalizePalette,
+} from './palette'
+export type { NavThemePalette } from './palette'
+export {
   THEME_STORAGE_KEY,
   applyDocumentTheme,
   getStoredTheme,
