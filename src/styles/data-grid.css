@@ -120,8 +120,9 @@
   justify-content: space-between;
   gap: 12px;
   padding: 3px 10px;
-  background: var(--bui-gridbar-bg, var(--ems-grid-gridbar-bg, #f6f8fa));
-  border-bottom: 1px solid #d0d7de;
+  background: var(--bui-gridbar-bg, #f6f8fa);
+  border-top: 1px solid var(--td-component-border);
+  border-bottom: 1px solid var(--td-component-border);
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -130,7 +131,7 @@
   position: sticky;
   bottom: 0;
   z-index: 2;
-  border-top: 1px solid #d0d7de;
+  border-top: 1px solid var(--td-component-border);
   border-bottom: 0;
 }
 
@@ -214,7 +215,7 @@
   height: 24px;
   padding: 0 8px;
   border-radius: 999px;
-  background: var(--bui-grid-row-hover-bg, var(--ems-grid-table-hover-bg, #f6f8fa));
+  background: var(--bui-grid-row-hover-bg, #f6f8fa);
   font-size: 13px;
 }
 
@@ -334,24 +335,45 @@
 }
 
 .data-grid .t-table th {
+  position: relative;
   padding: 0.3rem;
+  background: var(--bui-grid-header-bg, #f6f8fa);
+  font-weight: 600;
+  color: var(--td-text-color-primary);
 }
 
 .data-grid .t-table td {
   padding: 3px 0px;
 }
 
-.data-grid .t-table th {
-  background: var(--bui-grid-header-bg, var(--ems-grid-subtle-bg, #f6f8fa));
-  font-weight: 600;
-  color: var(--td-text-color-primary);
+/* 表头列间半高分割线（最后一列除外），与 td 边框同色 */
+.data-grid .t-table th:not(:last-child)::after {
+  position: absolute;
+  top: 25%;
+  right: 0;
+  height: 50%;
+  width: 1px;
+  background: var(--bui-grid-column-divider, var(--td-component-border));
+  content: "";
+  pointer-events: none;
 }
 
+/* 斑马纹：偶数行轻微底色（独立于 hover/selected，互不干扰） */
+.data-grid .t-table__body tr:nth-of-type(even) td {
+  background-color: var(--bui-grid-zebra-bg, hsla(240, 5%, 96%, 0.6));
+}
+
+/* 悬停反馈：优先级高于斑马纹，让偶数行 hover 时也有变化 */
 .data-grid .t-table__body tr:hover td {
-  background: var(--bui-grid-row-hover-bg, var(--ems-grid-table-hover-bg, #f6f8fa));
+  background: var(--bui-grid-row-hover-bg, #f6f8fa);
 }
 
-.data-grid .t-table__body tr.data-grid-row-selected td,
+/* 选中行：优先级高于斑马纹 */
+.data-grid .t-table__body tr.data-grid-row-selected td {
+  background: var(--bui-grid-row-selected-bg, #ddf4ff);
+}
+
+/* 选中行悬停时混合选中色与 hover 色，保留"已选中"的可辨识度 */
 .data-grid .t-table__body tr.data-grid-row-selected:hover td {
-  background: var(--bui-grid-row-selected-bg, var(--ems-grid-table-selected-bg, #ddf4ff));
+  background: color-mix(in srgb, var(--bui-grid-row-selected-bg, #ddf4ff) 60%, var(--bui-grid-row-hover-bg, #f6f8fa));
 }
