@@ -1,6 +1,7 @@
 {
   "name": "@beangle/bui-vue",
   "version": "0.0.4-SNAPSHOT",
+  "license": "GPL-3.0-or-later",
   "type": "module",
   "publishConfig": {
     "access": "public"
