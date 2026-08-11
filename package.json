@@ -1,6 +1,6 @@
 {
   "name": "@beangle/bui-vue",
-  "version": "0.0.1",
+  "version": "0.0.1-SNAPSHOT",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -20,6 +20,7 @@
     "build": "vue-tsc --noEmit && vite build",
     "prepublishOnly": "pnpm run build",
     "release:prepare": "bash scripts/release-prepare.sh",
+    "release:finish": "bash scripts/release-finish.sh",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run"
   },
