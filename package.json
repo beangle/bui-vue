@@ -1,15 +1,24 @@
 {
   "name": "@beangle/bui-vue",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./styles/data-grid.css": "./src/styles/data-grid.css"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./styles/theme.css": "./src/styles/theme.css",
+    "./styles/data-grid.css": "./src/styles/data-grid.css",
+    "./styles/table.css": "./src/styles/table.css",
+    "./styles/query-form.css": "./src/styles/query-form.css"
   },
+  "files": ["dist", "src"],
   "scripts": {
-    "build": "vue-tsc --noEmit",
-    "typecheck": "vue-tsc --noEmit"
+    "build": "vue-tsc --noEmit && vite build",
+    "prepublishOnly": "pnpm run build",
+    "release:prepare": "bash scripts/release-prepare.sh",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run"
   },
   "peerDependencies": {
     "tdesign-icons-vue-next": "^0.4.4",
@@ -18,11 +27,15 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
+    "@vue/test-utils": "^2.4.11",
+    "jsdom": "^30.0.1",
     "tdesign-icons-vue-next": "^0.4.4",
     "tdesign-vue-next": "^1.20.1",
     "typescript": "^5.9.3",
     "vite": "^7.1.12",
-    "vue-tsc": "^3.1.1",
-    "vue": "^3.5.22"
+    "vite-plugin-dts": "^5.0.3",
+    "vitest": "^4.1.10",
+    "vue": "^3.5.22",
+    "vue-tsc": "^3.1.1"
   }
 }

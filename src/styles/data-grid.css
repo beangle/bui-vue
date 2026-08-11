@@ -14,13 +14,19 @@
   color: var(--bui-primary-color, #1d4ed8);
 }
 
+/* 已排序列（升/降序）：表头背景轻微加深，对齐 bui .grid-head-asc/desc */
+.data-grid .t-table th:has(.t-table__sort-icon--active) {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg, #e1ecff) 88%, #000000);
+}
+
 .data-grid .sortable-header {
   cursor: pointer;
 }
 
+/* hover 预览排序：从表头背景轻微加深，清晰且不突兀 */
 .data-grid .sortable-header:hover {
   color: var(--bui-primary-color, #1d4ed8);
-  background: var(--bui-grid-header-hover-bg, #e8f1ff);
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg, #e1ecff) 88%, #000000);
 }
 
 .data-grid .sortable-header:hover .t-table__th-cell-inner {
@@ -72,27 +78,66 @@
   margin-left: 2px;
 }
 
+.data-grid .data-grid-selection-column,
+.data-grid .t-table__selection-cell,
+.data-grid .t-table__cell--selectable {
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+  box-sizing: border-box;
+}
+
+.data-grid .data-grid-selection-column .t-table__th-cell-inner,
+.data-grid .t-table__selection-cell .t-table__th-cell-inner,
+.data-grid .t-table__cell--selectable .t-table__th-cell-inner {
+  justify-content: center;
+  padding: 0;
+}
+
 .data-grid {
+  position: relative;
   min-width: 0;
 }
 
+.data-grid-loading-indicator {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  z-index: 3;
+  display: inline-flex;
+  height: 24px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  color: #57606a;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1px 2px rgba(31, 35, 40, 0.08);
+  font-size: 12px;
+  line-height: 1;
+  pointer-events: none;
+}
+
 .data-gridbar {
-  min-height: 36px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 6px 10px;
-  background: var(--bui-gridbar-bg, var(--ems-grid-gridbar-bg, #f6f8fa));
-  border-bottom: 1px solid #d0d7de;
+  padding: 3px 10px;
+  background: var(--bui-gridbar-bg, #f8fafc);
+  border-top: 1px solid var(--td-component-border);
+  border-bottom: 1px solid var(--td-component-border);
   box-sizing: border-box;
+  font-size: 14px;
 }
 
 .data-gridbar-bottom {
   position: sticky;
   bottom: 0;
   z-index: 2;
-  border-top: 1px solid #d0d7de;
+  border-top: 1px solid var(--td-component-border);
   border-bottom: 0;
 }
 
@@ -105,13 +150,19 @@
 }
 
 .data-gridbar-action {
-  height: 26px;
+  height: 24px;
   padding-right: 7px;
   padding-left: 7px;
   border-radius: 4px;
   color: #24292f;
   font: inherit;
+  font-size: inherit;
   overflow: visible;
+}
+
+.data-gridbar .t-button,
+.data-gridbar .t-button__text {
+  font-size: inherit;
 }
 
 .data-gridbar-action:hover {
@@ -121,9 +172,9 @@
 
 .data-gridbar-action::before {
   position: absolute;
-  inset: -3px -5px;
+  inset: -2px -3px;
   z-index: -1;
-  border-radius: 5px;
+  border-radius: 4px;
   content: "";
 }
 
@@ -138,7 +189,7 @@
 }
 
 .data-gridbar-action-primary .t-icon {
-  color: var(--bui-primary-link-color, #0969da);
+  color: #24292f;
 }
 
 .data-gridbar-action-danger .t-icon {
@@ -170,8 +221,7 @@
   height: 24px;
   padding: 0 8px;
   border-radius: 999px;
-  color: var(--bui-primary-link-color, #0969da);
-  background: var(--bui-grid-selection-bg, var(--ems-grid-selection-bg, #ddf4ff));
+  background: var(--bui-grid-row-hover-bg, #f6f8fa);
   font-size: 13px;
 }
 
@@ -185,7 +235,7 @@
   gap: 0;
   margin-left: auto;
   color: #57606a;
-  font-size: 13px;
+  font-size: inherit;
 }
 
 .data-grid-pager .t-button {
@@ -234,7 +284,7 @@
   align-items: center;
   gap: 8px;
   color: #57606a;
-  font-size: 13px;
+  font-size: inherit;
 }
 
 .data-grid-page-input {
@@ -264,7 +314,7 @@
 .data-grid-column-panel-title {
   margin-bottom: 6px;
   color: #24292f;
-  font-size: 13px;
+  font-size: inherit;
   font-weight: 600;
 }
 
@@ -281,7 +331,6 @@
   background: transparent;
   cursor: pointer;
   font: inherit;
-  font-size: 12px;
 }
 
 .data-grid-column-list {
@@ -292,24 +341,62 @@
 }
 
 .data-grid .t-table th {
+  position: relative;
   padding: 0.3rem;
+  background: var(--bui-grid-header-bg, #e1ecff);
+  font-weight: 600;
+  color: var(--td-text-color-primary);
 }
 
 .data-grid .t-table td {
-  padding: 0.2rem;
+  padding: 3px 0px;
 }
 
-.data-grid .t-table th {
-  color: #57606a;
-  background: var(--bui-grid-header-bg, var(--ems-grid-subtle-bg, #f6f8fa));
-  font-weight: 600;
+/* 表头列间半高分割线（最后一列除外），与 td 边框同色 */
+.data-grid .t-table th:not(:last-child)::after {
+  position: absolute;
+  top: 25%;
+  right: 0;
+  height: 50%;
+  width: 1px;
+  background: var(--bui-grid-column-divider, var(--td-component-border));
+  content: "";
+  pointer-events: none;
 }
 
+/* 排序高亮或已排序列隐藏分割线，避免残留在高亮背景上（含相邻前一列的竖线） */
+.data-grid .t-table th:hover::after,
+.data-grid .t-table th:has(+ th:hover)::after,
+.data-grid .t-table th:has(.t-table__sort-icon--active)::after,
+.data-grid .t-table th:has(+ th:has(.t-table__sort-icon--active))::after {
+  display: none;
+}
+
+/* 斑马纹：偶数行轻微底色（独立于 hover/selected，互不干扰） */
+.data-grid .t-table__body tr:nth-of-type(even) td {
+  background-color: var(--bui-grid-zebra-bg, hsla(240, 5%, 96%, 0.6));
+}
+
+/* 悬停反馈：优先级高于斑马纹，让偶数行 hover 时也有变化 */
 .data-grid .t-table__body tr:hover td {
-  background: var(--bui-grid-row-hover-bg, var(--ems-grid-table-hover-bg, #f6f8fa));
+  background: var(--bui-grid-row-hover-bg, #f6f8fa);
 }
 
-.data-grid .t-table__body tr.data-grid-row-selected td,
+/* 选中行：优先级高于斑马纹 */
+.data-grid .t-table__body tr.data-grid-row-selected td {
+  background: var(--bui-grid-row-selected-bg, #ddf4ff);
+}
+
+/* 选中行悬停时保持 hover 色，与普通行 hover 反馈一致 */
 .data-grid .t-table__body tr.data-grid-row-selected:hover td {
-  background: var(--bui-grid-row-selected-bg, var(--ems-grid-table-selected-bg, #ddf4ff));
+  background: var(--bui-grid-row-hover-bg, #f6f8fa);
+}
+
+/* 深色模式下排序/悬停表头从深色表头背景提亮，保持区分度 */
+:is(html[theme-mode="dark"]) .data-grid .t-table th:has(.t-table__sort-icon--active) {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg, #202038) 85%, #ffffff);
+}
+
+:is(html[theme-mode="dark"]) .data-grid .sortable-header:hover {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg, #202038) 85%, #ffffff);
 }

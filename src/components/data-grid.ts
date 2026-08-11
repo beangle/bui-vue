@@ -3,6 +3,7 @@ import type { PrimaryTableCol } from 'tdesign-vue-next'
 
 export type DataGridActionRequirement = 'none' | 'one' | 'oneOrMore' | 'many'
 export type DataGridToolbarPlacement = 'top' | 'bottom' | 'both' | 'auto'
+export type DataGridLoadingMode = 'mask' | 'indicator' | 'none'
 
 export interface DataGridColumnConfig {
   configurable?: boolean

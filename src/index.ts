@@ -8,3 +8,30 @@ export type {
   DataGridToolbarPlacement,
 } from './components/data-grid'
 export type { UnderlineTabItem } from './components/underline-tabs'
+export {
+  LOCALE_STORAGE_KEY,
+  getStoredLocale,
+  normalizeLocale,
+  onLocaleChange,
+  setStoredLocale,
+  setStoredLocaleAndNotify,
+} from './locale'
+export type { LocaleChangeListener, UiLocale } from './locale'
+export {
+  PALETTE_STORAGE_KEY,
+  applyPaletteVars,
+  applyStoredPaletteIfPresent,
+  getStoredPalette,
+  normalizePalette,
+} from './palette'
+export type { NavThemePalette } from './palette'
+export {
+  THEME_STORAGE_KEY,
+  applyDocumentTheme,
+  getStoredTheme,
+  normalizeTheme,
+  onThemeChange,
+  setStoredTheme,
+  setStoredThemeAndNotify,
+} from './theme'
+export type { ThemeChangeListener, UiTheme } from './theme'

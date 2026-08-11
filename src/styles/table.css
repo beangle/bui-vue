@@ -1,0 +1,14 @@
+/* Compact data table utility (compatible with classic BUI table-mini). */
+table.table-mini {
+  table-layout: fixed;
+}
+
+table.table-mini th {
+  color: #6c757d;
+  font-weight: normal;
+}
+
+table.table-mini th,
+table.table-mini td {
+  padding: 0.3rem;
+}
