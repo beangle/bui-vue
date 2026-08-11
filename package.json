@@ -1,6 +1,6 @@
 {
   "name": "@beangle/bui-vue",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "exports": {
     ".": {
@@ -12,7 +12,10 @@
     "./styles/table.css": "./src/styles/table.css",
     "./styles/query-form.css": "./src/styles/query-form.css"
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "build": "vue-tsc --noEmit && vite build",
     "prepublishOnly": "pnpm run build",
