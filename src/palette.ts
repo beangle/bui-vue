@@ -16,6 +16,7 @@ export interface NavThemePalette {
   navbarBgColor: string
   searchBgColor: string
   gridbarBgColor: string
+  gridHeaderBgColor?: string
   gridBorderColor: string
 }
 
@@ -36,6 +37,7 @@ export function normalizePalette(raw: unknown): NavThemePalette {
     navbarBgColor: typeof obj.navbarBgColor === 'string' ? obj.navbarBgColor : '',
     searchBgColor: typeof obj.searchBgColor === 'string' ? obj.searchBgColor : '',
     gridbarBgColor: typeof obj.gridbarBgColor === 'string' ? obj.gridbarBgColor : '',
+    gridHeaderBgColor: typeof obj.gridHeaderBgColor === 'string' ? obj.gridHeaderBgColor : '',
     gridBorderColor: typeof obj.gridBorderColor === 'string' ? obj.gridBorderColor : '',
   }
 }
@@ -75,7 +77,8 @@ function brandPaletteFromPrimary(primary: string): string[] {
 /**
  * 将主题色板写入 `:root` CSS 变量（与 ems-shell `applyThemeVars` 同名，门户优先不冲突），
  * 并把 primaryColor 映射到 TDesign brand 色板，让 TDesign 组件跟随门户主色。
- * - gridbarBgColor → --bui-gridbar-bg、--bui-grid-header-bg
+ * - gridbarBgColor → --bui-gridbar-bg
+ * - gridHeaderBgColor → --bui-grid-header-bg（缺省时回退 gridbarBgColor）
  * - gridBorderColor → --bui-grid-border-color
  * - searchBgColor → --bui-search-bg、--bui-panel-subtle-bg（查询面板背景）
  * - primaryColor → --primary-color、--bui-brand-color，及 --td-brand-color-* 系列
@@ -108,6 +111,10 @@ export function applyPaletteVars(palette: NavThemePalette, root: HTMLElement = d
   }
   if (palette.gridbarBgColor) {
     root.style.setProperty('--bui-gridbar-bg', palette.gridbarBgColor)
+  }
+  if (palette.gridHeaderBgColor) {
+    root.style.setProperty('--bui-grid-header-bg', palette.gridHeaderBgColor)
+  } else if (palette.gridbarBgColor) {
     root.style.setProperty('--bui-grid-header-bg', palette.gridbarBgColor)
   }
   if (palette.gridBorderColor) root.style.setProperty('--bui-grid-border-color', palette.gridBorderColor)

@@ -1,15 +1,18 @@
 {
   "name": "@beangle/bui-vue",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
     "./styles/theme.css": "./src/styles/theme.css",
     "./styles/data-grid.css": "./src/styles/data-grid.css",
     "./styles/table.css": "./src/styles/table.css",
     "./styles/query-form.css": "./src/styles/query-form.css"
   },
+  "files": ["dist", "src"],
   "scripts": {
     "build": "vue-tsc --noEmit && vite build",
     "typecheck": "vue-tsc --noEmit",

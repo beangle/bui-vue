@@ -14,13 +14,19 @@
   color: var(--bui-primary-color, #1d4ed8);
 }
 
+/* 已排序列（升/降序）：表头背景轻微加深，对齐 bui .grid-head-asc/desc */
+.data-grid .t-table th:has(.t-table__sort-icon--active) {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg, #e1ecff) 88%, #000000);
+}
+
 .data-grid .sortable-header {
   cursor: pointer;
 }
 
+/* hover 预览排序：从表头背景轻微加深，清晰且不突兀 */
 .data-grid .sortable-header:hover {
   color: var(--bui-primary-color, #1d4ed8);
-  background: var(--bui-grid-header-hover-bg, #e8f1ff);
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg, #e1ecff) 88%, #000000);
 }
 
 .data-grid .sortable-header:hover .t-table__th-cell-inner {
@@ -120,7 +126,7 @@
   justify-content: space-between;
   gap: 12px;
   padding: 3px 10px;
-  background: var(--bui-gridbar-bg, #f6f8fa);
+  background: var(--bui-gridbar-bg, #f8fafc);
   border-top: 1px solid var(--td-component-border);
   border-bottom: 1px solid var(--td-component-border);
   box-sizing: border-box;
@@ -337,7 +343,7 @@
 .data-grid .t-table th {
   position: relative;
   padding: 0.3rem;
-  background: var(--bui-grid-header-bg, #f6f8fa);
+  background: var(--bui-grid-header-bg, #e1ecff);
   font-weight: 600;
   color: var(--td-text-color-primary);
 }
@@ -358,6 +364,14 @@
   pointer-events: none;
 }
 
+/* 排序高亮或已排序列隐藏分割线，避免残留在高亮背景上（含相邻前一列的竖线） */
+.data-grid .t-table th:hover::after,
+.data-grid .t-table th:has(+ th:hover)::after,
+.data-grid .t-table th:has(.t-table__sort-icon--active)::after,
+.data-grid .t-table th:has(+ th:has(.t-table__sort-icon--active))::after {
+  display: none;
+}
+
 /* 斑马纹：偶数行轻微底色（独立于 hover/selected，互不干扰） */
 .data-grid .t-table__body tr:nth-of-type(even) td {
   background-color: var(--bui-grid-zebra-bg, hsla(240, 5%, 96%, 0.6));
@@ -373,7 +387,16 @@
   background: var(--bui-grid-row-selected-bg, #ddf4ff);
 }
 
-/* 选中行悬停时混合选中色与 hover 色，保留"已选中"的可辨识度 */
+/* 选中行悬停时保持 hover 色，与普通行 hover 反馈一致 */
 .data-grid .t-table__body tr.data-grid-row-selected:hover td {
-  background: color-mix(in srgb, var(--bui-grid-row-selected-bg, #ddf4ff) 60%, var(--bui-grid-row-hover-bg, #f6f8fa));
+  background: var(--bui-grid-row-hover-bg, #f6f8fa);
+}
+
+/* 深色模式下排序/悬停表头从深色表头背景提亮，保持区分度 */
+:is(html[theme-mode="dark"]) .data-grid .t-table th:has(.t-table__sort-icon--active) {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg, #202038) 85%, #ffffff);
+}
+
+:is(html[theme-mode="dark"]) .data-grid .sortable-header:hover {
+  background-color: color-mix(in srgb, var(--bui-grid-header-bg, #202038) 85%, #ffffff);
 }
