@@ -327,7 +327,7 @@
 .data-grid-column-actions button {
   padding: 0;
   border: 0;
-  color: var(--bui-primary-link-color, #0969da);
+  color: var(--bui-link-color, #0969da);
   background: transparent;
   cursor: pointer;
   font: inherit;

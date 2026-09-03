@@ -1,9 +1,21 @@
 :root {
   --bui-overlay-mask: rgba(31, 35, 40, 0.18);
+  /* 链接色：默认跟随主色（与经典 beangle-ui 同名变量一致），未定义主色时回退链接蓝 */
+  --bui-link-color: var(--primary-color, var(--bui-brand-color, #0969da));
+  /* 已访问链接色：区分已点击/未点击链接，可按主题覆盖（默认回退访问紫） */
+  --bui-link-visited-color: #8250df;
 }
 
 .t-dialog__ctx .t-dialog__mask,
 .t-drawer__mask {
   background: var(--bui-overlay-mask);
   background-color: var(--bui-overlay-mask);
+}
+
+a {
+  color: var(--bui-link-color);
+}
+
+a:visited {
+  color: var(--bui-link-visited-color);
 }

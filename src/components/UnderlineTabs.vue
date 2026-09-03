@@ -61,11 +61,11 @@ function selectTab(tab: UnderlineTabItem) {
 }
 
 .underline-tabs-tab:hover {
-  color: var(--bui-primary-link-color, #0969da);
+  color: var(--bui-link-color, #0969da);
 }
 
 .underline-tabs-tab.active {
-  color: var(--bui-primary-link-color, #0969da);
+  color: var(--bui-link-color, #0969da);
 }
 
 .underline-tabs-tab.active::after {
@@ -74,7 +74,7 @@ function selectTab(tab: UnderlineTabItem) {
   bottom: -1px;
   left: 0;
   height: 2px;
-  background: var(--bui-primary-link-color, #0969da);
+  background: var(--bui-link-color, #0969da);
   content: "";
 }
 
