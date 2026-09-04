@@ -22,3 +22,9 @@ export interface DataGridAction {
   theme?: 'default' | 'primary' | 'danger' | 'warning' | 'success'
   variant?: 'base' | 'outline' | 'dashed' | 'text'
 }
+
+export interface DataGridPagination {
+  current?: number
+  pageSize?: number
+  total?: number
+}

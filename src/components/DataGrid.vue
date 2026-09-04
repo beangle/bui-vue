@@ -231,13 +231,7 @@
 import { computed, h, ref, watch } from 'vue'
 import type { PageInfo, PrimaryTableCol, TableSort } from 'tdesign-vue-next'
 import { ChevronLeftIcon, ChevronRightIcon, PageFirstIcon, PageLastIcon, ViewColumnIcon } from 'tdesign-icons-vue-next'
-import type { DataGridAction, DataGridColumn, DataGridLoadingMode, DataGridToolbarPlacement } from './data-grid'
-
-interface DataGridPagination {
-  current?: number
-  pageSize?: number
-  total?: number
-}
+import type { DataGridAction, DataGridColumn, DataGridLoadingMode, DataGridPagination, DataGridToolbarPlacement } from './data-grid'
 
 const props = withDefaults(defineProps<{
   rowKey: string
