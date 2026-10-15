@@ -1,3 +1,36 @@
+/*
+ * 经典 BUI（beangle-ui.css）表格色板的默认值。
+ *
+ * bui-vue 只消费这些变量而从不声明，若不在这里给出缺省值，未接入门户色板的宿主
+ * 会落到中性灰兜底：「已选择 N 条」提示条、行悬停、命令按钮都会发灰。
+ * 门户仍可通过 applyPaletteVars() 覆盖其中同名的 --bui-grid-* 变量。
+ */
+:root {
+  --bui-gridbar-bg: #f8fafc;
+  --bui-grid-header-bg: #e1ecff;
+  --bui-grid-row-hover-bg: #fff8d6;
+  --bui-grid-row-selected-bg: #eaf7ff;
+  --bui-grid-zebra-bg: hsla(240, 5%, 96%, 0.6);
+  --bui-command-hover-bg: #dbeafe;
+  --bui-command-hover-border: #93c5fd;
+  --bui-danger-color: #cf222e;
+  --bui-warning-color: #9a6700;
+  --bui-success-color: #1a7f37;
+}
+
+:is(html[theme-mode="dark"]) {
+  --bui-gridbar-bg: #3f474e;
+  --bui-grid-header-bg: #202038;
+  --bui-grid-row-hover-bg: #2a2a3e;
+  --bui-grid-row-selected-bg: #1e2e44;
+  --bui-grid-zebra-bg: hsla(12, 7%, 15%, 0.6);
+  --bui-command-hover-bg: rgba(255, 255, 255, 0.08);
+  --bui-command-hover-border: #4b545c;
+  --bui-danger-color: #f85149;
+  --bui-warning-color: #d29922;
+  --bui-success-color: #3fb950;
+}
+
 .data-grid .t-table__cell--sortable .t-icon-sort--default {
   display: none;
 }
@@ -340,7 +373,16 @@
   overflow: auto;
 }
 
-.data-grid .t-table th {
+/*
+ * 单元格内边距。
+ *
+ * DataGrid 固定给 t-table 传 size="small"，TDesign 的 `.t-table.t-size-s td`（0,2,1）
+ * 与本库的 `.data-grid .t-table td`（0,2,1）特异度相同，谁生效取决于打包顺序；
+ * TDesign 的样式通常排在后面，会把 td 撑成 `--td-size-4`（8px）。这里显式提高特异度，
+ * 保证 DataGrid 的紧凑行高不被 TDesign 的尺寸档覆盖。
+ */
+.data-grid .t-table th,
+.data-grid .t-table.t-size-s th {
   position: relative;
   padding: 0.3rem;
   background: var(--bui-grid-header-bg, #e1ecff);
@@ -348,8 +390,17 @@
   color: var(--td-text-color-primary);
 }
 
-.data-grid .t-table td {
-  padding: 3px 0px;
+.data-grid .t-table td,
+.data-grid .t-table.t-size-s td {
+  padding: 3px 6px;
+}
+
+/* 选择/多选列保持零内边距，特异度需压过上面的规则（本规则声明在后） */
+.data-grid .t-table th.t-table__cell-check,
+.data-grid .t-table td.t-table__cell-check,
+.data-grid .t-table th.t-table__cell--selectable,
+.data-grid .t-table td.t-table__cell--selectable {
+  padding: 0;
 }
 
 /* 表头列间半高分割线（最后一列除外），与 td 边框同色 */

@@ -65,3 +65,19 @@ describe('DataGrid', () => {
   })
 })
 
+describe('data-grid 主题色板', () => {
+  const css = readFileSync(resolve(process.cwd(), 'src/styles/data-grid.css'), 'utf-8')
+
+  it('自带经典 BUI 色板缺省值，不再依赖宿主声明', () => {
+    for (const name of ['--bui-gridbar-bg', '--bui-grid-header-bg', '--bui-grid-row-hover-bg', '--bui-grid-row-selected-bg']) {
+      expect(css).toContain(`${name}:`)
+    }
+  })
+
+  it('深色模式覆盖表格色板，避免浅色缺省值泄漏到深色主题', () => {
+    const dark = css.slice(css.indexOf(':is(html[theme-mode="dark"])'))
+    expect(dark).toContain('--bui-grid-row-hover-bg:')
+    expect(dark).toContain('--bui-grid-row-selected-bg:')
+    expect(dark).toContain('--bui-grid-header-bg:')
+  })
+})
