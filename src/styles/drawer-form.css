@@ -1,0 +1,123 @@
+/* === Drawer Form（紧凑抽屉表单） ===
+ * 列表页「新建/编辑」抽屉里的表单：标签在上、两列栅格、动作在右，规格取自 exam 的
+ * .create-apply / .create-form / .create-form-field / .drawer-actions。
+ *
+ * 用法（TDesign）：
+ *   <t-drawer ...>
+ *     <t-form class="drawer-form" label-align="top" required-mark required-mark-position="right">
+ *       <div class="drawer-form-grid">
+ *         <t-form-item class="drawer-form-field-wide" ...>  <!-- 多行控件占整行 -->
+ *         <t-form-item ...>
+ *       </div>
+ *     </t-form>
+ *     <template #footer>
+ *       <div class="drawer-actions">
+ *         <span class="drawer-actions-note">…</span>
+ *         <t-button variant="outline">取消</t-button><t-button theme="primary">提交</t-button>
+ *       </div>
+ *     </template>
+ *   </t-drawer>
+ *
+ * 动作条放抽屉的 #footer 插槽（不要 :footer="false" + 正文内联）：正文是滚动容器，
+ * 内联动作条在长表单里要么被滚走，要么得用 sticky 覆盖最后一行。字段少、不需要滚动的
+ * 短表单才适合内联。
+ *
+ * 注意 TDesign 的 requiredMark(布尔) 与 requiredMarkPosition('left'|'right') 是两个 prop：
+ * 只写 required-mark="right" 不会右置星号，反而会因非 Boolean 触发类型告警。
+ *
+ * 字段说明用 <template #help>（渲染成 .t-input__help，位于控件下方、参与布局），不要
+ * 直接塞进默认插槽——默认插槽在 .t-form__controls-content 这个 flex 行里，会把输入框挤窄。
+ *
+ * 尺寸与颜色走变量：--bui-drawer-form-*（表单几何）/ --bui-* （主题色板）。
+ */
+.drawer-form {
+  display: grid;
+  gap: var(--bui-drawer-form-gap, 14px);
+  min-width: 0;
+}
+
+/* 两列栅格：宽控件用 .drawer-form-field-wide 跨满整行。 */
+.drawer-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--bui-drawer-form-grid-gap, 12px);
+  align-items: start;
+}
+
+/*
+ * 特殊说明：TDesign 会给「带校验规则」的项加 .t-form__item-with-extra，它同样是 (0,2,0)
+ * 且排在产物后面，只用 .drawer-form-grid > .t-form__item 会在级联中落败（必填项行距被顶回 24px）。
+ * 多加一层 .drawer-form 提到 (0,3,0)。
+ */
+.drawer-form .drawer-form-grid > .t-form__item {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+/* 标签在上：13px 灰色半粗，与控件间距 6px（TDesign 默认 24px 行高 + 8px 间距太松）。 */
+.drawer-form .drawer-form-grid > .t-form__item .t-form__label {
+  min-height: 0;
+  margin-bottom: var(--bui-drawer-form-label-gap, 6px);
+  padding-right: 0;
+  color: var(--bui-drawer-form-label-color, #57606a);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/*
+ * 校验提示 / 字段说明：TDesign 把「错误信息」渲染成 .t-input__extra 并绝对定位到控件下方
+ * （bottom: -line-height），默认靠 .t-form__item 的 24px margin-bottom 让位。我们把
+ * margin-bottom 归零后，提示就会压到下一行的标签上。
+ * 这里把 FormItem 的 extra/help 改回文档流：出现时该行自然增高，行距保持 12px 不变。
+ */
+.drawer-form .drawer-form-grid > .t-form__item > .t-form__controls > .t-input__extra {
+  position: static;
+}
+
+.drawer-form .drawer-form-grid > .t-form__item > .t-form__controls > .t-input__extra,
+.drawer-form .drawer-form-grid > .t-form__item > .t-form__controls > .t-input__help {
+  margin-top: 2px;
+  overflow: visible;
+  white-space: normal;
+  text-overflow: clip;
+}
+
+.drawer-form-field-wide {
+  grid-column: 1 / -1;
+}
+
+.drawer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 2px;
+}
+
+/* 放在 #footer 里时抵消 TDesign 的 .t-drawer__footer .t-button { margin-left }，统一走 gap。 */
+.drawer-actions .t-button + .t-button {
+  margin-left: 0;
+}
+
+/* 动作条左侧的补充说明（如「已选择 N 条」）。 */
+.drawer-actions-note {
+  margin-right: auto;
+  color: var(--bui-drawer-form-label-color, #57606a);
+  font-size: 13px;
+}
+
+/* 抽屉遮罩比 TDesign 默认更浅（与 exam 一致）；提特异性，否则会被 TDesign 的同名规则盖掉。 */
+.t-drawer .t-drawer__mask {
+  background-color: var(--bui-drawer-mask-bg, rgb(31 35 40 / 18%));
+}
+
+@media (max-width: 980px) {
+  .drawer-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .drawer-actions {
+    flex-wrap: wrap;
+  }
+}

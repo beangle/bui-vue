@@ -15,7 +15,9 @@
     "./styles/data-grid.css": "./src/styles/data-grid.css",
     "./styles/table.css": "./src/styles/table.css",
     "./styles/query-form.css": "./src/styles/query-form.css",
+    "./styles/workbench.css": "./src/styles/workbench.css",
     "./styles/underline-tabs.css": "./src/styles/underline-tabs.css",
+    "./styles/drawer-form.css": "./src/styles/drawer-form.css",
     "./styles/side-nav.css": "./src/styles/side-nav.css"
   },
   "files": [

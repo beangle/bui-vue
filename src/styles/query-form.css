@@ -1,14 +1,26 @@
 /* === Query Panel Layout ===
- * Two-column grid: labels on the left, controls on the right.
- * Compact inline form for data-grid filter panels.
+ * 列表页左栏查询面板（DataGrid 的搭档面板），供各 SPA 共用同一套紧凑规格。
+ *
+ * 规格取自线上 exam 的 .query-panel：面板内边距 8px 6px、标签列 60px、标签与控件间距 4px、
+ * 控件外壳 28px（= TDesign --td-comp-size-s，默认 medium 是 32px，必须显式压到 28px）。
+ * 尺寸与颜色全部走变量，宿主可整体覆盖：--bui-query-*（本面板几何）/ --bui-* （主题色板）。
  */
 .query-panel {
+  --bui-query-panel-padding: 8px 6px;
+  --bui-query-label-width: 60px;
+  --bui-query-label-gap: 4px;
+  --bui-query-row-gap: 4px;
+  --bui-query-control-height: 28px;
+  --bui-query-button-height: 28px;
+  --bui-query-button-min-width: 64px;
   position: relative;
   z-index: 1;
+  min-height: 0;
   min-width: 0;
-  padding: 8px 10px;
-  border: 1px solid var(--bui-border-color, #cfd6de);
+  padding: var(--bui-query-panel-padding);
   background: var(--bui-panel-subtle-bg, #f8fafc);
+  border-right: 1px solid var(--bui-border-color, #d0d7de);
+  overflow: auto;
   box-sizing: border-box;
 }
 
@@ -17,6 +29,7 @@
   height: 24px;
   align-items: center;
   margin-bottom: 8px;
+  color: var(--bui-query-title-color, inherit);
   font-size: 14px;
   font-weight: 700;
 }
@@ -32,7 +45,7 @@
 
 .query-fields {
   display: grid;
-  gap: 5px;
+  gap: var(--bui-query-row-gap);
   min-width: 0;
 }
 
@@ -43,17 +56,24 @@
 
 .query-field {
   display: grid;
-  grid-template-columns: 60px minmax(0, 1fr);
+  grid-template-columns: var(--bui-query-label-width) minmax(0, 1fr);
   align-items: center;
-  gap: 4px;
+  gap: var(--bui-query-label-gap);
   min-width: 0;
 }
 
 .query-field-label {
+  color: var(--bui-query-label-color, inherit);
   font-weight: 400;
   line-height: 1.2;
   text-align: right;
   white-space: nowrap;
+}
+
+.query-field-label.required::after {
+  margin-left: 2px;
+  color: var(--bui-query-required-color, #cf222e);
+  content: "*";
 }
 
 .query-field-wide {
@@ -72,33 +92,48 @@
   padding-top: 2px;
 }
 
-.query-panel .t-button {
-  height: 26px;
-  min-width: 58px;
-  padding-right: 8px;
-  padding-left: 8px;
-  font-weight: 500;
-}
-
+/*
+ * 控件外壳统一压到 28px：t-input 的高度来自 --td-comp-size-m（32px），
+ * 主题或 TDesign 版本一变就会和面板其它控件对不齐；t-select 的内层同样是 .t-input。
+ */
 .query-panel .t-input,
 .query-panel .t-select-input {
-  min-height: 28px;
+  min-height: var(--bui-query-control-height);
 }
 
 .query-panel .t-input {
-  height: 28px;
+  height: var(--bui-query-control-height);
 }
 
-@media (max-width: 900px) {
+.query-panel .t-input__wrap {
+  width: 100%;
+}
+
+/*
+ * TDesign 的 .t-button.t-size-s（0,2,0）在产物里排在后面，只用 .query-panel .t-button（同为 0,2,0）
+ * 会在级联中落败，按钮会退回 24px；追加 .t-size-s 变体把特异性提到 (0,3,0)。
+ */
+.query-panel .t-button,
+.query-panel .t-button.t-size-s {
+  height: var(--bui-query-button-height);
+  min-width: var(--bui-query-button-min-width);
+  padding-right: 8px;
+  padding-left: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* 断点与 exam 的 .data-workbench 收拢点一致（980px）。 */
+@media (max-width: 980px) {
   .query-panel {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
     gap: 0;
     min-height: 0;
-    padding: 8px 10px;
+    padding: var(--bui-query-panel-padding);
     border-right: 0;
-    border-bottom: 1px solid var(--bui-border-color, #cfd6de);
+    border-bottom: 1px solid var(--bui-border-color, #d0d7de);
   }
 
   .query-fields {

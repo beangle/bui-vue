@@ -1,0 +1,51 @@
+/* === List Workbench Layout ===
+ * 列表页「左栏查询 + 右侧数据」的工作台外框，与 query-form.css 是一对：
+ *   .page-panel--workbench  白底、底部 1px 贯穿线、整行最小高度；左栏据此成为通高色带
+ *   .data-workbench         两栏栅格；--query 变体给出左栏列宽
+ * 规格取自线上 exam 的 .page-panel / .data-workbench。
+ *
+ * 尺寸与颜色走变量：--bui-query-panel-width（左栏列宽）/ --bui-surface-bg / --bui-border-color。
+ *
+ * .page-panel--workbench 必须与 .page-panel 同时使用（选择器按两类的组合提特异性，
+ * 这样宿主给 .page-panel 加的通用内边距不会把工作台推离页面边缘）。
+ */
+.page-panel.page-panel--workbench {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: var(--bui-surface-bg, #fff);
+  border-bottom: 1px solid var(--bui-border-color, #d0d7de);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/*
+ * 工作台栅格撑满外框剩余高度：否则内容不足时左栏色带只到内容高度、右侧留白，
+ * 色带与它的右分隔线到不了外框底边（exam 的 .page-panel 与 .data-workbench 是同一个
+ * 元素，天然被 min-height 撑满，这里用 flex 复现同样的效果）。
+ * min-height 挂在栅格上而不是外框上，与 exam 的 .page-panel.data-workbench 对齐：
+ * 472px 是「工作台区域」的最小高度，页面标题行另算。
+ */
+.data-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1 1 auto;
+  min-height: var(--bui-workbench-min-height, 472px);
+  min-width: 0;
+}
+
+/*
+ * 左栏列宽 196px = 内容 183px + 左右 padding 6px + 右侧 1px 分隔线（与 exam 等宽）。
+ * 放在父级是为了让应用只覆盖一个变量就能整体调宽窄。
+ */
+.data-workbench--query {
+  --bui-query-panel-width: 196px;
+  grid-template-columns: var(--bui-query-panel-width) minmax(0, 1fr);
+}
+
+/* 窄屏收拢为上下排列，断点与 query-form.css 的面板内重排一致。 */
+@media (max-width: 980px) {
+  .data-workbench--query {
+    display: block;
+  }
+}
