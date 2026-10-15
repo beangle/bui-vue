@@ -1,4 +1,5 @@
 export { default as DataGrid } from './components/DataGrid.vue'
+export { default as SideNav } from './components/SideNav.vue'
 export { default as UnderlineTabs } from './components/UnderlineTabs.vue'
 export type {
   DataGridAction,
@@ -7,6 +8,7 @@ export type {
   DataGridColumnConfig,
   DataGridToolbarPlacement,
 } from './components/data-grid'
+export type { SideNavItem } from './components/side-nav'
 export type { UnderlineTabItem } from './components/underline-tabs'
 export {
   LOCALE_STORAGE_KEY,

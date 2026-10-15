@@ -1,0 +1,141 @@
+/* === Side Navigation ===
+ * 侧栏菜单（DataGrid 之外的另一个共用壳层件），规格取自 EMS 门户侧栏
+ * （ems-shell 的 AdminLTE nav-sidebar / nav-treeview）：
+ *
+ *   - 扁平项，无圆角、无选中底色；顶级项左侧留 3px 透明边框，激活或含激活子项时染主色；
+ *   - 字号 0.875rem，行内上下留白 0.4rem（配合 1.5 行高 ≈ 34px 行高，比 TDesign 默认紧凑）；
+ *   - 图标 0.7rem、占宽 1.3rem，距左边框 3px，右间距 0.2rem；
+ *   - 子级整层缩进 0.5rem，文字转灰（#777），hover/激活只加深文字不换底色；
+ *   - 分组标题右侧的三角在展开时旋转 90°（对齐门户的 fa-angle-left → 展开朝下）。
+ *
+ * 所有几何与颜色都走变量，宿主可整体覆盖：--bui-side-nav-*。
+ */
+.bui-side-nav {
+  --bui-side-nav-text: #343a40;
+  --bui-side-nav-muted: #6c757d;
+  --bui-side-nav-tree-text: #777;
+  --bui-side-nav-hover-bg: rgba(0, 0, 0, 0.06);
+  --bui-side-nav-active-color: #000;
+  --bui-side-nav-accent: var(--primary-color, var(--td-brand-color, #0969da));
+  --bui-side-nav-font-size: 0.875rem;
+  --bui-side-nav-indent: 0.5rem;
+  --bui-side-nav-icon-size: 0.7rem;
+  --bui-side-nav-icon-width: 1.3rem;
+  --bui-side-nav-row-padding: 0.4rem 0.8rem 0.4rem 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.bui-side-nav__section {
+  padding: 6px 14px 8px;
+  color: var(--bui-side-nav-muted);
+  font-size: 0.7rem;
+}
+
+.bui-side-nav__list,
+.bui-side-nav__tree {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bui-side-nav__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--bui-side-nav-row-padding);
+  border-left: 3px solid transparent;
+  color: var(--bui-side-nav-text);
+  font-size: var(--bui-side-nav-font-size);
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.bui-side-nav__link:hover {
+  background-color: var(--bui-side-nav-hover-bg);
+  color: var(--bui-side-nav-active-color);
+  text-decoration: none;
+}
+
+/* 顶级叶子激活、或分组里含激活项：主色左边框（门户只给顶级画条）。 */
+.bui-side-nav__list > .bui-side-nav__item > .bui-side-nav__link.is-active,
+.bui-side-nav__item.has-active > .bui-side-nav__link {
+  border-left-color: var(--bui-side-nav-accent);
+  color: var(--bui-side-nav-active-color);
+}
+
+.bui-side-nav__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--bui-side-nav-icon-width);
+  margin-right: 0.2rem;
+  margin-left: 3px;
+  font-size: var(--bui-side-nav-icon-size);
+  opacity: 0.85;
+}
+
+.bui-side-nav__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bui-side-nav__caret {
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  margin-left: auto;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 5px solid currentColor;
+  opacity: 0.6;
+  transition: transform 0.15s ease;
+}
+
+.bui-side-nav__item.is-open > .bui-side-nav__link .bui-side-nav__caret {
+  transform: rotate(90deg);
+}
+
+/* 子级整层缩进，文字转灰；hover/激活只加深文字，不换底色（门户的 nav-treeview 表现）。 */
+.bui-side-nav__tree {
+  padding-left: var(--bui-side-nav-indent);
+}
+
+.bui-side-nav__tree .bui-side-nav__link {
+  background-color: transparent;
+  color: var(--bui-side-nav-tree-text);
+}
+
+.bui-side-nav__tree .bui-side-nav__link:hover,
+.bui-side-nav__tree .bui-side-nav__link.is-active {
+  background-color: transparent;
+  color: var(--bui-side-nav-active-color);
+}
+
+:is(html[theme-mode="dark"]) .bui-side-nav {
+  --bui-side-nav-text: var(--td-text-color-primary, #e5e5e5);
+  --bui-side-nav-muted: var(--td-text-color-placeholder, #8b8b8b);
+  --bui-side-nav-tree-text: #c2c7d0;
+  --bui-side-nav-hover-bg: rgba(255, 255, 255, 0.1);
+  --bui-side-nav-active-color: #fff;
+}
+
+/* 收起态（窄屏/侧栏折叠）：只留图标，隐藏分区标题、文字、箭头与分组子项。 */
+.bui-side-nav.is-collapsed .bui-side-nav__section,
+.bui-side-nav.is-collapsed .bui-side-nav__label,
+.bui-side-nav.is-collapsed .bui-side-nav__caret {
+  display: none;
+}
+
+.bui-side-nav.is-collapsed .bui-side-nav__link {
+  justify-content: center;
+  padding-right: 0;
+}
+
+.bui-side-nav.is-collapsed .bui-side-nav__icon {
+  margin-right: 0;
+}
