@@ -27,12 +27,8 @@
   "scripts": {
     "build": "vue-tsc --noEmit && vite build",
     "prepublishOnly": "pnpm run build",
-    "release:prepare": "bash scripts/release-prepare.sh",
-    "release:finish": "bash scripts/release-finish.sh",
-    "release:dev": "bash scripts/release-dev.sh",
     "typecheck": "vue-tsc --noEmit",
-    "test": "vitest run",
-    "publishLocal": "bash scripts/publish-local.sh"
+    "test": "vitest run"
   },
   "peerDependencies": {
     "tdesign-icons-vue-next": "^0.4.4",
