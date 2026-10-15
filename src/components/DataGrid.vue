@@ -107,7 +107,8 @@
       </div>
     </div>
 
-    <t-table
+    <component
+      :is="tableComponent"
       :row-key="rowKey"
       size="small"
       :data="data"
@@ -115,6 +116,7 @@
       :loading="tableLoading"
       :selected-row-keys="selectedRowKeys"
       :sort="tableSort"
+      :tree="tree"
       :row-class-name="rowClassName"
       cell-empty-content="-"
       @row-click="onRowClick"
@@ -229,7 +231,7 @@
 
 <script setup lang="ts" generic="T extends Record<string, unknown>">
 import { computed, h, ref, watch } from 'vue'
-import type { PageInfo, PrimaryTableCol, TableSort } from 'tdesign-vue-next'
+import type { PageInfo, PrimaryTableCol, TableSort, TableTreeConfig } from 'tdesign-vue-next'
 import { ChevronLeftIcon, ChevronRightIcon, PageFirstIcon, PageLastIcon, ViewColumnIcon } from 'tdesign-icons-vue-next'
 import type { DataGridAction, DataGridColumn, DataGridLoadingMode, DataGridPagination, DataGridToolbarPlacement } from './data-grid'
 
@@ -248,6 +250,8 @@ const props = withDefaults(defineProps<{
   bottomToolbarThreshold?: number
   columnConfigurable?: boolean
   sort?: string
+  /** 透传给 t-table 的树形配置：设置后 data 需按 childrenKey 嵌套。 */
+  tree?: TableTreeConfig
 }>(), {
   loading: false,
   loadingMode: 'mask',
@@ -260,6 +264,7 @@ const props = withDefaults(defineProps<{
   bottomToolbarThreshold: 50,
   columnConfigurable: false,
   sort: '',
+  tree: undefined,
 })
 
 const emit = defineEmits<{
@@ -281,10 +286,15 @@ const tableLoading = computed(() => props.loading && props.loadingMode === 'mask
 const showLoadingIndicator = computed(() => props.loading && props.loadingMode === 'indicator')
 const selectionColumnWidth = 40
 
+/** 树形表格由 EnhancedTable 提供，其余场景沿用 PrimaryTable。 */
+const tableComponent = computed(() => (props.tree ? 't-enhanced-table' : 't-table'))
+
 const computedColumns = computed<PrimaryTableCol<T>[]>(() => {
-  const visibleColumns = normalizeSelectableColumnWidths(
-    props.columns.filter((col) => shouldShowColumn(col)).map(withSort),
-  ) as unknown as PrimaryTableCol<T>[]
+  // 百分比列宽必须原样交给 t-table：Chrome 的 table-layout: fixed 只认 % / px，
+  // 认不出 calc()（列宽会被忽略、退化成各列平分），所以这里不做任何换算。
+  const visibleColumns = props.columns
+    .filter((col) => shouldShowColumn(col))
+    .map(withSort) as unknown as PrimaryTableCol<T>[]
   if (!props.selectable) return visibleColumns
   if (visibleColumns.some((col) => col.type === 'multiple' || col.type === 'single')) return visibleColumns
   return [
@@ -409,30 +419,6 @@ function withSort(column: DataGridColumn): DataGridColumn {
     sorter: true,
     sortType: 'all',
   }
-}
-
-function normalizeSelectableColumnWidths(columns: DataGridColumn[]): DataGridColumn[] {
-  if (!props.selectable) return columns
-  if (columns.some((col) => col.type === 'multiple' || col.type === 'single')) return columns
-  const percentColumns = columns
-    .map((column) => ({ column, percent: percentWidthValue(column.width) }))
-    .filter((item): item is { column: DataGridColumn; percent: number } => item.percent !== undefined)
-  const percentTotal = percentColumns.reduce((total, item) => total + item.percent, 0)
-  if (percentTotal <= 0) return columns
-  return columns.map((column) => {
-    const percent = percentWidthValue(column.width)
-    if (percent === undefined) return column
-    return {
-      ...column,
-      width: `calc((100% - ${selectionColumnWidth}px) * ${percent} / ${percentTotal})`,
-    }
-  })
-}
-
-function percentWidthValue(width: DataGridColumn['width']) {
-  if (typeof width !== 'string') return undefined
-  const match = width.trim().match(/^(\d+(?:\.\d+)?)%$/)
-  return match ? Number(match[1]) : undefined
 }
 
 function tableSortKeyOf(sortKey: string) {
